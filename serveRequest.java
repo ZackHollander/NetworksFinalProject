@@ -9,30 +9,39 @@ public class serveRequest implements Runnable {
     }
 
     public void run() {
+        
         try {
-            processRequest();
+            bidApplication();
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-    private void processRequest() throws Exception {
+    private void bidApplication() throws Exception {
+
         InputStream is = socket.getInputStream();
-        DataOutputStream os = new
-            DataOutputStream(socket.getOutputStream());
-        
+        DataOutputStream os = new DataOutputStream(socket.getOutputStream());
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        
-        while(true) {
-            String msg = br.readLine();
-            System.out.println("Received from client: ");
-            System.out.println(msg);
-            
-            String outputMsg = msg.toUpperCase();
-            os.writeBytes(outputMsg);
-            os.writeBytes("\r\n");
-            System.out.println("Sent to client: ");
-            System.out.println(outputMsg);
-        }
+
+
+
+        while(true){
+            String toClient = "Would you like to put an item up for auction or bid on one?" 
+                                + " If Bid type 'bid'. If auction type 'auction'." + "\r\n";
+            os.writeBytes(toClient);
+            System.out.println("Sent to client: " + toClient + "\n");
+
+            String fromClient = br.readLine();
+            if(fromClient.toLowerCase().equals("bid")){
+                // bid();
+                System.out.println("bid()");
+            } else if(fromClient.toLowerCase().equals("auction")){
+                editFile.addItem("Dog", "98");
+                System.out.println("newItem()");
+            } else{
+                toClient = "Please try again and enter the words exactly as seen." + "\r\n";
+                os.writeBytes(toClient);
+            }
+       }
     }
 }

@@ -5,12 +5,12 @@ class TCPClient {
 
     public static void receive(BufferedReader inFromServer) throws Exception{
         String fromServer = inFromServer.readLine();
-        System.out.println(fromServer = "\n");
+        System.out.println(fromServer + "\n");
     }
 
     public static void send(BufferedReader inFromUser, DataOutputStream outToServer) throws Exception{
         String toServer = inFromUser.readLine();
-        outToServer.writeBytes(toServer + "\n");
+        outToServer.writeBytes(toServer + "\r\n");
     }
 
     public static void main(String argv[]) throws Exception {
@@ -21,8 +21,9 @@ class TCPClient {
         BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
         while (true) {
-            send(inFromUser, outToServer);
             receive(inFromServer);
+            System.out.println("finished recieved");
+            send(inFromUser, outToServer);
         }
 
     }
