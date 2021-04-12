@@ -44,6 +44,7 @@ public class serveRequest implements Runnable {
                 String bid = br.readLine(); 
 
                 editFile.editItem(item, bid, "active");
+
             } else if(fromClient.toLowerCase().equals("auction")){
                 if(editFile.isInFile("Dog")){
                     toClient = "This item is already up for auction. Please submit the item with a different name." + "\r\n";

@@ -7,7 +7,7 @@ public class editFile {
     static File file = new File("itemList.txt");
 
     public static void editItem(String item, String price, String status) {
-        try{
+        try {
             FileInputStream fileInputStream = new FileInputStream(file);
             BufferedReader br = new BufferedReader(new InputStreamReader(fileInputStream));
             String strLine;
@@ -33,7 +33,7 @@ public class editFile {
             out.write(fileContent.toString());
             out.close();
             fileInputStream.close();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());
         }
     }
@@ -73,20 +73,43 @@ public class editFile {
         }
     }
 
-    public static boolean isInFile(String item){
-        try{
-        FileInputStream fileInputStream = new FileInputStream(file);
-        BufferedReader br = new BufferedReader(new InputStreamReader(fileInputStream));
-        String strLine;
-        while ((strLine = br.readLine()) != null) {
-            String tokens[] = strLine.split("@");
-            if(tokens[0].equals(item)){
-                return true;
+    public static boolean isInFile(String item) {
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            BufferedReader br = new BufferedReader(new InputStreamReader(fileInputStream));
+            String strLine;
+            while ((strLine = br.readLine()) != null) {
+                String tokens[] = strLine.split("@");
+                if (tokens[0].equals(item)) {
+                    return true;
+                }
             }
-        } 
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public static int priceOfItem(String item){
+        try{
+            FileInputStream fileInputStream = new FileInputStream(file);
+            BufferedReader br = new BufferedReader(new InputStreamReader(fileInputStream));
+            String strLine;
+            StringBuilder fileContent = new StringBuilder();
+
+            int price;
+
+            while ((strLine = br.readLine()) != null) {
+                String tokens[] = strLine.split("@");
+                if (tokens.length > 0) {
+                    if (tokens[0].equals(item)) {
+                        price = Intiger.parseInt(tokens[1]);
+                    }
+                }
+            }
+            return price;
         }catch(Exception e){
             System.err.println("Error: " + e.getMessage());
         }
-        return false; 
-    } 
+    }
 }
