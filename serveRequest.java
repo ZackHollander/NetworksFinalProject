@@ -33,11 +33,24 @@ public class serveRequest implements Runnable {
 
             String fromClient = br.readLine();
             if(fromClient.toLowerCase().equals("bid")){
-                // bid();
-                System.out.println("bid()");
+
+                toClient = "What would you like to bid on?" + "\r\n";
+                os.writeBytes(toClient);
+                String item = br.readLine();
+
+                toClient = "How much would you like to Bid?" + "\r\n";
+                os.writeBytes(toClient);
+                System.out.println(toClient);
+                String bid = br.readLine(); 
+
+                editFile.editItem(item, bid, "active");
             } else if(fromClient.toLowerCase().equals("auction")){
-                editFile.addItem("Dog", "98");
-                System.out.println("newItem()");
+                if(editFile.isInFile("Dog")){
+                    toClient = "This item is already up for auction. Please submit the item with a different name." + "\r\n";
+                    os.writeBytes(toClient);
+                } else {
+                    editFile.addItem("Dog", "98");
+                }
             } else{
                 toClient = "Please try again and enter the words exactly as seen." + "\r\n";
                 os.writeBytes(toClient);

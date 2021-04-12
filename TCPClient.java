@@ -21,9 +21,12 @@ class TCPClient {
         BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
         while (true) {
+            System.out.println("Start recieved");
             receive(inFromServer);
             System.out.println("finished recieved");
+            System.out.println("Start send");
             send(inFromUser, outToServer);
+            System.out.println("finished send");
         }
 
     }
