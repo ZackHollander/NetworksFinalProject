@@ -5,6 +5,8 @@ public class UserThread extends Thread {
     private Socket socket;
     private AuctionServer server;
     private PrintWriter writer;
+
+    String userName;
  
     public UserThread(Socket socket, AuctionServer server) {
         this.socket = socket;
@@ -21,7 +23,7 @@ public class UserThread extends Thread {
  
             printUsers();
  
-            String userName = reader.readLine();
+            userName = reader.readLine();
             server.addUserName(userName);
  
             String serverMessage = "New bidder has connected: " + userName;
@@ -31,8 +33,23 @@ public class UserThread extends Thread {
  
             do {
                 clientMessage = reader.readLine();
-                serverMessage = "[" + userName + "]: " + clientMessage;
-                server.broadcast(serverMessage, this);
+                String[] clientInput = clientMessage.split(" ");
+                if (clientInput[0].equals("ADD") && clientInput.length == 2){
+                    server.newAuction(clientInput[1], this);
+                }else if(clientInput[0].equals("BID") && clientInput.length == 3){
+
+                    if(server.hasAuctions()){
+                        server.bid(server.findAuction(clientInput[1]), this, Double.parseDouble(clientInput[2]));
+                    } else {
+                        sendMessage("There are no items to bid on.");
+                    }
+                    
+                }else if(clientInput[0].equals("LIST") && clientInput.length == 1){
+                    server.sendItemList(this);
+                }else{
+                    serverMessage = "[" + userName + "]: " + clientMessage;
+                    server.broadcast(serverMessage, this);
+                }
  
             } while (!clientMessage.equals("bye"));
  
@@ -48,9 +65,6 @@ public class UserThread extends Thread {
         }
     }
  
-    /**
-     * Sends a list of online users to the newly connected user.
-     */
     void printUsers() {
         if (server.hasUsers()) {
             writer.println("Connected users: " + server.getUsers());
@@ -58,11 +72,16 @@ public class UserThread extends Thread {
             writer.println("No other users connected");
         }
     }
- 
-    /**
-     * Sends a message to the client.
-     */
+
     void sendMessage(String message) {
         writer.println(message);
+    }
+
+    Socket getSocket(){
+        return socket;
+    }
+
+    String getUsername(){
+        return userName;
     }
 }

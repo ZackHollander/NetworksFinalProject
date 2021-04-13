@@ -6,6 +6,7 @@ public class AuctionServer {
     private int port;
     private Set<String> users = new HashSet<>();
     private Set<UserThread> userThreads = new HashSet<>();
+    private Set<AuctionItem> auctionList = new HashSet<>(); 
     
     public AuctionServer(int port) {
         this.port = port;
@@ -53,9 +54,50 @@ public class AuctionServer {
     Set<String> getUsers() {
         return this.users;
     }
+
+   void sendItemList(UserThread aUser){
+        Set<String> items = new HashSet<>();
+        for(AuctionItem aItem : auctionList){
+            String itemInfo = aItem.getItem() + " $" + aItem.getPrice();
+            items.add(itemInfo);
+        }
+        aUser.sendMessage(items.toString());
+    }
  
     boolean hasUsers() {
         return !this.users.isEmpty();
+    }
+
+    boolean hasAuctions(){
+        return !this.auctionList.isEmpty();
+    }
+
+    void newAuction(String item, UserThread aUser){
+        if(findAuction(item) != null){
+            aUser.sendMessage("This item is already up for bid.");
+        } else {
+            broadcast(("New auction started for: " + item), null);
+            AuctionItem auctionItem = new AuctionItem(aUser.getSocket(), this, item);
+            auctionList.add(auctionItem);
+        }
+    }
+
+    void bid(AuctionItem auction, UserThread aUser, Double amount){
+        if(auction == null) {
+            aUser.sendMessage("This item can not be bid on.");
+        }else{
+            broadcast(("There has been a bid for: " + auction.getItem()), null);
+            auction.increasePrice(amount, aUser.getUsername());
+        }
+    }
+
+    AuctionItem findAuction(String item){
+        for (AuctionItem auction : auctionList){
+            if (auction.getItem().equals(item)){
+                return auction;
+            }
+        }
+        return null;
     }
     
     public static void main(String[] args){

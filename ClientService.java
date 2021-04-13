@@ -15,7 +15,11 @@ public class ClientService {
         try {
             Socket socket = new Socket(hostname, port);
 
-            System.out.println("Connected to the chat server");
+            System.out.println("Connected to the Auction server! Feel Free to chat among the active people.");
+            System.out.println("To get a List of active auctions and the current price type [LIST]. \n" +
+                                "If you would like to bid on an item type [BID <item> <amount to increase by>].\n" +
+                                "To put an item up for auction type [ADD <Item's name>]. All start prices start at 0.\n" +
+                                "To leave the auction type [bye].");
 
             new ReadThread(socket, this).start();
             new WriteThread(socket, this).start();

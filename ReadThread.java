@@ -25,7 +25,6 @@ public class ReadThread extends Thread{
                 String response = reader.readLine();
                 System.out.println("\n" + response);
  
-                // prints the username after displaying the server's message
                 if (client.getUser() != null) {
                     System.out.print("[" + client.getUser() + "]: ");
                 }
