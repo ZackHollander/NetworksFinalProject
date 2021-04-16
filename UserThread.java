@@ -34,8 +34,8 @@ public class UserThread extends Thread {
             do {
                 clientMessage = reader.readLine();
                 String[] clientInput = clientMessage.split(" ");
-                if (clientInput[0].equals("ADD") && clientInput.length == 2){
-                    server.newAuction(clientInput[1], this);
+                if (clientInput[0].equals("ADD") && clientInput.length == 3){
+                    server.newAuction(clientInput[1], this, Integer.parseInt(clientInput[2]));
                 }else if(clientInput[0].equals("BID") && clientInput.length == 3){
 
                     if(server.hasAuctions()){

@@ -72,12 +72,12 @@ public class AuctionServer {
         return !this.auctionList.isEmpty();
     }
 
-    void newAuction(String item, UserThread aUser){
+    void newAuction(String item, UserThread aUser, Integer lifespan){
         if(findAuction(item) != null){
             aUser.sendMessage("This item is already up for bid.");
         } else {
             broadcast(("New auction started for: " + item), null);
-            AuctionItem auctionItem = new AuctionItem(aUser.getSocket(), this, item);
+            AuctionItem auctionItem = new AuctionItem(aUser.getSocket(), this, item, aUser.getUsername(), lifespan);
             auctionList.add(auctionItem);
         }
     }
@@ -85,7 +85,9 @@ public class AuctionServer {
     void bid(AuctionItem auction, UserThread aUser, Double amount){
         if(auction == null) {
             aUser.sendMessage("This item can not be bid on.");
-        }else{
+        }else if(aUser.getUsername().equals(auction.getItemOwner())){
+            aUser.sendMessage("You own this item currently and can't bid on it.");
+        } else{
             broadcast(("There has been a bid for: " + auction.getItem()), null);
             auction.increasePrice(amount, aUser.getUsername());
         }
@@ -98,6 +100,10 @@ public class AuctionServer {
             }
         }
         return null;
+    }
+
+    void RemoveItem(AuctionItem item){
+        auctionList.remove(item);
     }
     
     public static void main(String[] args){
