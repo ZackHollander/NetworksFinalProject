@@ -102,8 +102,8 @@ public class AuctionServer {
         return null;
     }
 
-    void RemoveItem(AuctionItem item){
-        auctionList.remove(item);
+    void removeItem(String item){
+        auctionList.remove(findAuction(item));
     }
     
     public static void main(String[] args){

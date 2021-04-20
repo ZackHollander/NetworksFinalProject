@@ -53,10 +53,11 @@ public class AuctionItem extends Thread {
 
     void endAuction(){
         timer.cancel();
+        server.removeItem(item);
         if(currentLeader.equals(itemOwner)){
-            server.broadcast("SOLD! " + item + " has been sold to " + currentLeader + ".", null);
-        }else{
             server.broadcast("Nobody has bid on " + item + " and has been returned to its original owner.", null);
+        }else{
+            server.broadcast("SOLD! " + item + " has been sold to " + currentLeader + " at $" + price + ".", null);
         }
     }
 }
