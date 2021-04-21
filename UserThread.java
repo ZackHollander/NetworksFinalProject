@@ -31,6 +31,7 @@ public class UserThread extends Thread {
  
             String clientMessage;
  
+            //Parses the message and decides actions to take place after
             do {
                 clientMessage = reader.readLine();
                 String[] clientInput = clientMessage.split(" ");

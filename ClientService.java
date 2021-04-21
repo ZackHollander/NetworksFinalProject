@@ -21,6 +21,7 @@ public class ClientService {
                                 "To put an item up for auction type [ADD <Item's name> <Auction lifeSpan in  whole minuets>]. All start prices start at 0.\n" +
                                 "To leave the auction type [bye].");
 
+            //Creates input and output threads
             new ReadThread(socket, this).start();
             new WriteThread(socket, this).start();
 
