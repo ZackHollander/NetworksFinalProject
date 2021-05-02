@@ -1,7 +1,20 @@
+/*
+* Auction Application 
+* 2020
+*
+* This application is made by Zack Hollander for his Networks 352 class at Dickinson College. 
+* Please feel free to edit and play around with the code. Use this code to learn about TCP 
+* applications. The application simulates a chat with an auction functionality. ENJOY!
+*/
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
+/*
+* This class keeps track of the individual auction. It starts and stops an auction along with
+* keeping track of the auciton as a whole.
+*/
 public class AuctionItem extends Thread {
     private Socket socket;
     private AuctionServer server;

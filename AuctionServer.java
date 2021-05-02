@@ -1,7 +1,22 @@
+/*
+* Auction Application 
+* 2020
+*
+* This application is made by Zack Hollander for his Networks 352 class at Dickinson College. 
+* Please feel free to edit and play around with the code. Use this code to learn about TCP 
+* applications. The application simulates a chat with an auction functionality. ENJOY!
+*/
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
 
+/*
+* This is the main class for the server. It listens for conections from the clients and creates an 
+* user Thread for each. It handles all actions needed revolving the application. This includes, 
+* creating an auction, biding on an auction, sending a message to all clients, and sending a message 
+* to an individual client.
+*/
 public class AuctionServer {
     private int port;
     private Set<String> users = new HashSet<>();

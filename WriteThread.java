@@ -1,6 +1,19 @@
+/*
+* Auction Application 
+* 2020
+*
+* This application is made by Zack Hollander for his Networks 352 class at Dickinson College. 
+* Please feel free to edit and play around with the code. Use this code to learn about TCP 
+* applications. The application simulates a chat with an auction functionality. ENJOY!
+*/
+
 import java.io.*;
 import java.net.*;
- 
+
+/*
+* This class send messages to the server. It takes the socket from the ClientService and
+* send messages to the server.
+*/
 public class WriteThread extends Thread {
     private PrintWriter writer;
     private Socket socket;
